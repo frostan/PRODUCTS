@@ -15,6 +15,7 @@
 ![Static Badge](https://img.shields.io/badge/REST_framework-red)
 ![Static Badge](https://img.shields.io/badge/PosgreSQL-blue)
 ![Static Badge](https://img.shields.io/badge/JS-yellow)
+![Static Badge](https://img.shields.io/badge/HTML-orange)
 
 ## Клонировать проект:
 ```
