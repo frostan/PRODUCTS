@@ -1,0 +1,52 @@
+<script>
+    async function fetchProducts() {
+        const response = await fetch('/api/products/');
+        const data = await response.json();
+        const tbody = document.querySelector('#productTable tbody');
+        tbody.innerHTML = '';
+        data.forEach(product => {
+            const row = `<tr>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.description}</td>
+                <td>${product.price}</td>
+                <td class="text-center">
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Удалить</button>
+                </td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+    async function deleteProduct(id) {
+        const response = await fetch(`/api/products/${id}/`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            fetchProducts();
+        } else {
+            alert('Ошибка при удалении продукта. Попробуйте еще раз.');
+        }
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const price = parseFloat(document.getElementById('price').value);
+
+        const response = await fetch('/api/products/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, description, price }),
+        });
+
+        if (response.ok) {
+            fetchProducts();
+            document.getElementById('productForm').reset();
+        }
+    });
+
+    window.onload = fetchProducts;
+</script>
